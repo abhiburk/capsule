@@ -2,15 +2,12 @@
 
 use Livewire\Volt\Component;
 use App\Livewire\Forms\MessageForm;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 new class extends Component {
-    use LivewireAlert;
-
     public $periods = [
-        365 => '1 Year',
-        365 * 2 => '2 Years',
-        365 * 5 => '5 Years',
+        30 => '1 Month',
+        30 * 6 => '6 Months',
+        365 * 1 => '1 Year',
     ];
 
     public MessageForm $form;
@@ -49,7 +46,6 @@ new class extends Component {
                                 </div>
                             </label>
                         @endforeach
-
 
                         <!-- Custom Date (Disabled) -->
                         <label class="cursor-not-allowed">
@@ -105,7 +101,6 @@ new class extends Component {
                         </button>
                     </div>
                 </div>
-
             </div>
 
             <div class="p-4 sm:p-8  sm:pt-0">
