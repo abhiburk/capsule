@@ -34,7 +34,7 @@ class MessageNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->greeting("Hello {$notifiable->name}👋!")
+            ->greeting("Hello 👋!")
             ->subject('🎉 Your Time Capsule Has Been Unlocked!')
             ->line('✨ Relive Your Past, Embrace Your Present ✨')
             ->line("The moment you've been waiting for has arrived! Your time capsule, created on {$this->message->created_at->toFormattedDateString()}, is now unlocked and ready for you to explore.")
