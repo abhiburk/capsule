@@ -2,8 +2,11 @@
 
 use Livewire\Volt\Component;
 use App\Livewire\Forms\MessageForm;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 new class extends Component {
+    use LivewireAlert;
+
     public $periods = [
         365 => '1 Year',
         365 * 2 => '2 Years',
@@ -18,7 +21,7 @@ new class extends Component {
 
         $this->form->store();
 
-        return $this->redirect('/dashboard');
+        return $this->redirect('/home');
     }
 }; ?>
 

@@ -10,15 +10,22 @@ new class extends Component {
     public function with(): array
     {
         return [
-            'messages' => Message::simplePaginate(3),
+            'messages' => Message::latest()->simplePaginate(5),
         ];
     }
 }; ?>
 
 <div class="rounded-lg ">
-    <div class="p-6">
-        <h2 class="text-lg font-semibold">Your Scheduled Messages</h2>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Messages waiting to be delivered</p>
+    <div class="p-6 flex justify-between item-center">
+        <div>
+            <h2 class="text-lg font-semibold">Your Scheduled Messages</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Messages waiting to be delivered</p>
+        </div>
+        <div>
+            <x-primary-link href="{{ route('messages.create') }}" wire:navigate>
+                Create Capsule
+            </x-primary-link>
+        </div>
     </div>
 
     <div class="p-6 space-y-4">
@@ -26,7 +33,7 @@ new class extends Component {
             <div class="rounded-lg border p-4 dark:border-gray-800 bg-white">
                 <div class="flex justify-between items-start mb-2">
                     <div class="space-y-1">
-                        <h3 class="font-medium">Delivery at {{ $message->scheduled_at->toFormattedDateString() }}</h3>
+                        <h3 class="font-medium">Scheduled at {{ $message->scheduled_at->toFormattedDateString() }}</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400">
                             Delivery in {{ $message->scheduled_at->diffForHumans() }}
                         </p>
