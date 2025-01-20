@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Livewire\Forms\MessageForm;
+use App\Models\Capsule;
 
 new class extends Component {
     public $periods = [
@@ -11,6 +12,11 @@ new class extends Component {
     ];
 
     public MessageForm $form;
+
+    public function mount(string $capsule)
+    {
+        dd($capsule);
+    }
 
     public function message()
     {
