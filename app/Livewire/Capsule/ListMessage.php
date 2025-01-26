@@ -19,7 +19,7 @@ class ListMessage extends Component
 
     public function render()
     {
-        $messages = Message::latest()->simplePaginate(5);
+        $messages = $this->capsule->messages()->latest()->simplePaginate(5);
         return view('livewire.capsule.list-message', [
             'messages' => $messages
         ]);

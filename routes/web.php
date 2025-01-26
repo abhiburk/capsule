@@ -2,6 +2,7 @@
 
 use App\Livewire\Capsule\CreateCapsule;
 use App\Livewire\Capsule\CreateMessage;
+use App\Livewire\Capsule\ListCapsule;
 use App\Livewire\Capsule\ListMessage;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,7 @@ Route::view('home', 'home')
 Route::middleware(['auth', 'verified'])->group(
     function () {
         Route::prefix('capsules')->name('capsules.')->group(function () {
+            Route::get('/', ListCapsule::class)->name('index');
             Route::get('create', CreateCapsule::class)->name('create');
             Route::get('{capsule}', CreateMessage::class)->name('show');
             Route::get('{capsule}/messages', ListMessage::class)->name('messages.index');
