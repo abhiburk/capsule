@@ -45,13 +45,13 @@
                         <div class="space-y-3">
                             <label class="text-sm font-medium">Your Message</label>
                             <textarea wire:model="form.content"
-                                class="w-full min-h-[150px] rounded-md border resize-none border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:outline-none p-3 text-sm dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-700 dark:focus:ring-gray-700"
+                                class="{{ $errors->get('form.content') ? 'border-red-500' : '' }} w-full min-h-[150px] rounded-md border resize-none border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:outline-none p-3 text-sm dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-700 dark:focus:ring-gray-700"
                                 placeholder="Dear future me..."></textarea>
                             <div class="flex justify-between text-sm text-gray-500">
                                 <span>Take your time, this message will wait</span>
-                                <span>0/1000 characters</span>
+                                {{-- <span>0/1000 characters</span> --}}
                             </div>
-                            <x-input-error :messages="$errors->get('form.content')" class="mt-2" />
+                            {{-- <x-input-error :messages="$errors->get('form.content')" class="mt-2" /> --}}
                         </div>
 
                         <!-- Attachments -->

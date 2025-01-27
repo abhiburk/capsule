@@ -13,8 +13,6 @@ class CreateCapsule extends Component
 
     public function create()
     {
-        $this->validate();
-
         $capsule = $this->form->store();
 
         return $this->redirectRoute('capsules.show', $capsule->id);

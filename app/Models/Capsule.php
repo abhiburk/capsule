@@ -17,6 +17,15 @@ class Capsule extends Model
         'id',
     ];
 
+    protected $appends = [
+        'visibility_name',
+    ];
+
+    public function getVisibilityNameAttribute()
+    {
+        return $this->attributes['visibility'] ? 'Public' : 'Private';
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()->generateSlugsFrom('name')->saveSlugsTo('slug');
