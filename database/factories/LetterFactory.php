@@ -4,27 +4,20 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Message>
- */
-class MessageFactory extends Factory
+class LetterFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
             'user_id' => \App\Models\User::factory(),
-            'content' => $this->faker->text,
+            'capsule_id' => \App\Models\Capsule::factory(),
+            'message' => $this->faker->text,
             'channels' => [\App\Enums\ChannelTypesEnum::EMAIL],
-            'delivery_days' => $this->faker->numberBetween(1, 5) * 365,
+            'scheduled_days' => $this->faker->numberBetween(1, 5) * 365,
             'scheduled_at' => $this->faker->dateTimeBetween('now', '+1 year'),
             'delivered_at' => null,
             'read_at' => null,
-            'is_public' => false,
+            'is_public' => $this->faker->boolean,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];

@@ -48,9 +48,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function messages()
+    public function letters()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Letter::class);
     }
 
     public function capsules()

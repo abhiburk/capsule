@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Livewire\Capsule\CreateCapsule;
-use App\Livewire\Capsule\CreateMessage;
+use App\Livewire\Capsule\CreateLetter;
 use App\Livewire\Capsule\ListCapsule;
-use App\Livewire\Capsule\ListMessage;
+use App\Livewire\Capsule\ListLetter;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('home', 'home')
+Route::get('home', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('home');
 
@@ -17,8 +18,8 @@ Route::middleware(['auth', 'verified'])->group(
         Route::prefix('capsules')->name('capsules.')->group(function () {
             Route::get('/', ListCapsule::class)->name('index');
             Route::get('create', CreateCapsule::class)->name('create');
-            Route::get('{capsule}', CreateMessage::class)->name('show');
-            Route::get('{capsule}/messages', ListMessage::class)->name('messages.index');
+            Route::get('{capsule}', CreateLetter::class)->name('show');
+            Route::get('{capsule}/letters', ListLetter::class)->name('letters.index');
         });
     }
 );

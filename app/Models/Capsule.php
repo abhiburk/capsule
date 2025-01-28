@@ -36,8 +36,8 @@ class Capsule extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function messages()
+    public function letters()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Letter::class);
     }
 }

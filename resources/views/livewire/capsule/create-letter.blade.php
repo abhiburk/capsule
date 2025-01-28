@@ -1,11 +1,11 @@
 <div class="py-12">
     <main class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div>
-            <form wire:submit="message">
+            <form wire:submit="store">
                 <div class="rounded-lg border bg-white shadow-sm dark:bg-gray-950 dark:border-gray-800 mb-8">
                     <div class="p-4 sm:p-8 ">
                         <h2 class="text-3xl font-semibold pb-2">{{ $capsule->name }}</h2>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Write a message to your future self</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Write a letter to your future self</p>
                     </div>
 
                     <div class="p-4 sm:p-8 space-y-6 sm:pt-0">
@@ -44,11 +44,11 @@
                         <!-- Message Input -->
                         <div class="space-y-3">
                             <label class="text-sm font-medium">Your Message</label>
-                            <textarea wire:model="form.content"
-                                class="{{ $errors->get('form.content') ? 'border-red-500' : '' }} w-full min-h-[150px] rounded-md border resize-none border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:outline-none p-3 text-sm dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-700 dark:focus:ring-gray-700"
+                            <textarea wire:model="form.message"
+                                class="{{ $errors->get('form.message') ? 'border-red-500' : '' }} w-full min-h-[150px] rounded-md border resize-none border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:outline-none p-3 text-sm dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-700 dark:focus:ring-gray-700"
                                 placeholder="Dear future me..."></textarea>
                             <div class="flex justify-between text-sm text-gray-500">
-                                <span>Take your time, this message will wait</span>
+                                <span>Take your time, this letter will wait</span>
                                 {{-- <span>0/1000 characters</span> --}}
                             </div>
                             {{-- <x-input-error :messages="$errors->get('form.content')" class="mt-2" /> --}}
@@ -82,7 +82,7 @@
 
                     <div class="p-4 sm:p-8  sm:pt-0">
                         <x-primary-button class="w-full justify-center flex">
-                            <x-spinner wire:loading wire:target="message" />
+                            <x-spinner wire:loading wire:target="store" />
                             {{ __('Schedule Message') }}
                         </x-primary-button>
                     </div>

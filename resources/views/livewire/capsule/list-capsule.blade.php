@@ -40,10 +40,10 @@
                                 <span class="text-xs">&bull;</span>
                                 <p>{{ $capsule->visibility_name }}</p>
                                 <span class="text-xs">&bull;</span>
-                                <a href="{{ route('capsules.messages.index', $capsule->id) }}"
+                                <a href="{{ route('capsules.letters.index', $capsule->id) }}"
                                     class="text-blue-500 hover:underline">
-                                    {{ $capsule->messages_count }}
-                                    {{ Str::plural('message', $capsule->messages_count) }}
+                                    {{ $capsule->letters_count }}
+                                    {{ Str::plural('letter', $capsule->letters_count) }}
                                 </a>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                                 d="M9 12h6m-6 4h6M9 8h6m5 9H6a2 2 0 00-2 2v2h18v-2a2 2 0 00-2-2z" />
                         </svg>
                         <h3 class="text-2xl font-bold text-gray-700">Oops! Nothing Here</h3>
-                        <p class="text-gray-500">Write message to yourself through capsules</p>
+                        <p class="text-gray-500">Write letter to yourself through capsules</p>
                         <x-primary-link href="{{ route('capsules.create') }}" wire:navigate>
                             Create Capsule
                         </x-primary-link>

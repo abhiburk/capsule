@@ -1,7 +1,7 @@
 <div class="py-12">
     <main class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="rounded-lg ">
-            @if (!$messages->isEmpty())
+            @if (!$letters->isEmpty())
                 <div class="p-6 flex justify-between item-center">
                     <div>
                         <h2 class="text-lg font-semibold">Your Scheduled Messages</h2>
@@ -15,16 +15,16 @@
                 </div>
             @endif
             <div class="p-6 space-y-4">
-                @forelse ($messages as $message)
-                    @if ($message->scheduled_at->isPast())
+                @forelse ($letters as $letter)
+                    @if ($letter->scheduled_at->isPast())
                         <div class="rounded-lg border bg-white p-6 shadow">
                             <h3 class="text-xl font-bold mb-2 text-green-600">Delivered</h3>
                             <p class="text-sm text-gray-500">
-                                {{ $message->content }}
+                                {{ $letter->message }}
                             </p>
                             <div class="mt-4 text-xs text-gray-400 flex justify-between items-center">
-                                <p>Created on {{ $message->created_at->toFormattedDateString() }}</p>
-                                @foreach ($message->channels as $channel)
+                                <p>Created on {{ $letter->created_at->toFormattedDateString() }}</p>
+                                @foreach ($letter->channels as $channel)
                                     <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
                                         {{ $channel }}
                                     </span>
@@ -41,15 +41,15 @@
                                             d="M8 17l4 4m0 0l4-4m-4 4V3">
                                         </path>
                                     </svg>
-                                    Scheduled at {{ $message->scheduled_at->toFormattedDateString() }}
+                                    Scheduled at {{ $letter->scheduled_at->toFormattedDateString() }}
                                 </h3>
 
                                 <p class="text-sm text-gray-500">Delivery in
-                                    {{ $message->scheduled_at->diffForHumans() }}</p>
+                                    {{ $letter->scheduled_at->diffForHumans() }}</p>
                                 <p class="text-xs text-gray-400">Created on
-                                    {{ $message->created_at->toFormattedDateString() }}</p>
+                                    {{ $letter->created_at->toFormattedDateString() }}</p>
                             </div>
-                            @foreach ($message->channels as $channel)
+                            @foreach ($letter->channels as $channel)
                                 <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
                                     {{ $channel }}
                                 </span>
@@ -67,9 +67,9 @@
                         <div class="text-center flex flex-col items-center space-y-2">
                             <h3
                                 class="dark:text-gray-100 font-poppins whitespace-normal sm:text-h2 text-xl font-semibold">
-                                No messages found.
+                                No letters found.
                             </h3>
-                            <p class="text-gray-500 dark:text-gray-400 ">Write a message to your future self
+                            <p class="text-gray-500 dark:text-gray-400 ">Write a letter to your future self
                             </p>
                         </div>
                         <x-primary-link href="{{ route('capsules.show', $capsule->id) }}" wire:navigate>
@@ -82,7 +82,7 @@
                         </x-primary-link>
                     </div>
                 @endforelse
-                {{ $messages->links(data: ['scrollTo' => false]) }}
+                {{ $letters->links(data: ['scrollTo' => false]) }}
             </div>
         </div>
     </main>

@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('letters', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
             $table->foreignUuid('user_id');
             $table->foreignUuid('capsule_id');
-            $table->text('content');
-            $table->json('channels')->nullable()->comment("The channels the message will be sent to");
+            $table->text('message');
+            $table->json('channels')->nullable()->comment("The channels the letter will be sent to");
             $table->integer('scheduled_days')->default(365)->comment("The number of days the capsule will be unlocked after it is created");
-            $table->timestamp('scheduled_at')->nullable()->comment("The date and time the message is scheduled to be sent");
-            $table->timestamp('delivered_at')->nullable()->comment("The date and time the message was sent");
-            $table->timestamp('read_at')->nullable()->comment("The date and time the message was read");
+            $table->timestamp('scheduled_at')->nullable()->comment("The date and time the letter is scheduled to be sent");
+            $table->timestamp('delivered_at')->nullable()->comment("The date and time the letter was sent");
+            $table->timestamp('read_at')->nullable()->comment("The date and time the letter was read");
             $table->boolean('is_public')->nullable()->default(false);
             $table->string('status')->default(CapsuleStatusEnum::DRAFT);
             $table->softDeletes();
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('letters');
     }
 };

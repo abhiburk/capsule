@@ -9,9 +9,6 @@ use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $admin = [
@@ -24,6 +21,7 @@ class DatabaseSeeder extends Seeder
         User::create($admin);
 
         // User::factory(10)->create();
-        // (new MessageSeeder())->run();
+        (new CapsuleSeeder())->run();
+        (new LetterSeeder())->run();
     }
 }

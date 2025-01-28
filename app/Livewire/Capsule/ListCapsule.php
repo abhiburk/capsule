@@ -10,7 +10,7 @@ class ListCapsule extends Component
 {
     public function render()
     {
-        $capsules = auth()->user()->capsules()->withCount('messages')->latest()->simplePaginate(5);
+        $capsules = auth()->user()->capsules()->withCount('letters')->latest()->simplePaginate(5);
         return view('livewire.capsule.list-capsule', [
             'capsules' => $capsules
         ]);

@@ -3,20 +3,21 @@
 namespace App\Livewire\Capsule;
 
 use App\Enums\CapsuleStatusEnum;
-use App\Livewire\Forms\MessageForm;
+use App\Livewire\Forms\LetterForm;
 use App\Models\Capsule;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
 #[Layout('layouts.app')]
-class CreateMessage extends Component
+class CreateLetter extends Component
 {
-    public MessageForm $form;
+    public LetterForm $form;
     public Capsule $capsule;
     public array $periods = [
-        30 => '1 Month',
-        30 * 6 => '6 Months',
-        365 * 1 => '1 Year',
+        30 => '1 month',
+        30 * 6 => '6 months',
+        365 * 1 => '1 year',
+        365 * 3 => '3 years',
     ];
 
     public function mount(Capsule $capsule)
@@ -24,21 +25,19 @@ class CreateMessage extends Component
         $this->capsule = $capsule;
     }
 
-    public function message()
+    public function store()
     {
-        $this->validate();
-
         $this->form->store($this->capsule);
 
         $this->capsule->update([
             'status' => CapsuleStatusEnum::PUBLISHED,
         ]);
 
-        return $this->redirectRoute('capsules.messages.index', $this->capsule->id);
+        return $this->redirectRoute('capsules.letter.index', $this->capsule->id);
     }
 
     public function render()
     {
-        return view('livewire.capsule.create-message');
+        return view('livewire.capsule.create-letter');
     }
 }

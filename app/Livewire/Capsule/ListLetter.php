@@ -3,12 +3,11 @@
 namespace App\Livewire\Capsule;
 
 use App\Models\Capsule;
-use App\Models\Message;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
 #[Layout('layouts.app')]
-class ListMessage extends Component
+class ListLetter extends Component
 {
     public Capsule $capsule;
 
@@ -19,9 +18,9 @@ class ListMessage extends Component
 
     public function render()
     {
-        $messages = $this->capsule->messages()->latest()->simplePaginate(5);
-        return view('livewire.capsule.list-message', [
-            'messages' => $messages
+        $letters = $this->capsule->letters()->latest()->simplePaginate(5);
+        return view('livewire.capsule.list-letter', [
+            'letters' => $letters
         ]);
     }
 }

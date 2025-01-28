@@ -4,15 +4,14 @@ namespace App\Livewire\Forms;
 
 use App\Enums\ChannelTypesEnum;
 use App\Models\Capsule;
-use App\Models\Message;
+use App\Models\Letter;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class MessageForm extends Form
+class LetterForm extends Form
 {
-
     #[Validate('required|string')]
-    public string $content = '';
+    public string $message = '';
 
     #[Validate('required|array')]
     public array $channels = [ChannelTypesEnum::EMAIL];
@@ -23,13 +22,13 @@ class MessageForm extends Form
     #[Validate('required|boolean')]
     public bool $is_public = false;
 
-    public function store(Capsule $capsule): Message
+    public function store(Capsule $capsule): Letter
     {
         $this->validate();
 
-        return $capsule->messages()->create([
+        return $capsule->letters()->create([
             'user_id' => auth()->id(),
-            'content' => $this->content,
+            'message' => $this->message,
             'channels' => $this->channels,
             'scheduled_days' => $this->scheduled_days,
             'scheduled_at' => now()->addDays($this->scheduled_days),

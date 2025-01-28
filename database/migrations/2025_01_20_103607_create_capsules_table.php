@@ -19,9 +19,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('slug')->unique();
             $table->foreignUuid('user_id');
-            $table->string('visibility')->default(CapsuleVisibilityEnum::PRIVATE);
+            $table->boolean('visibility')->default(0);
             $table->integer('scheduled_days')->default(365)->comment("The number of days the capsule will be unlocked after it is created");
-            $table->timestamp('scheduled_at')->nullable()->comment("The date and time the message is scheduled to be sent");
+            $table->timestamp('scheduled_at')->nullable()->comment("The date and time the letter is scheduled to be sent");
             $table->string('status')->default(CapsuleStatusEnum::DRAFT);
             $table->softDeletes();
             $table->timestamps();
