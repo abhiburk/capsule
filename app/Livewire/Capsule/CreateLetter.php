@@ -33,7 +33,7 @@ class CreateLetter extends Component
             'status' => CapsuleStatusEnum::PUBLISHED,
         ]);
 
-        return $this->redirectRoute('capsules.letter.index', $this->capsule->id);
+        return $this->redirectRoute('capsules.letters.index', $this->capsule->id);
     }
 
     public function render()

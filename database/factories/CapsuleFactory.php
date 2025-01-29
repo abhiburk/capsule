@@ -10,7 +10,7 @@ class CapsuleFactory extends Factory
     {
         return [
             'user_id' => \App\Models\User::factory(),
-            'name' => $this->faker->name,
+            'title' => rtrim($this->faker->sentence(2), '.'),
             'description' => $this->faker->text,
             'visibility' => $this->faker->boolean,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),

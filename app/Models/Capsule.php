@@ -28,7 +28,7 @@ class Capsule extends Model
 
     public function getSlugOptions(): SlugOptions
     {
-        return SlugOptions::create()->generateSlugsFrom('name')->saveSlugsTo('slug');
+        return SlugOptions::create()->generateSlugsFrom('title')->saveSlugsTo('slug');
     }
 
     public function user()

@@ -10,7 +10,7 @@ use Livewire\Form;
 class CapsuleForm extends Form
 {
     #[Validate('required|string')]
-    public string $name = '';
+    public string $title = '';
 
     #[Validate('nullable|string')]
     public string $description = '';
@@ -31,7 +31,7 @@ class CapsuleForm extends Form
         return auth()->user()->capsules()->create([
             'scheduled_days' => $this->scheduled_days,
             'scheduled_at' => now()->addDays($this->scheduled_days),
-            'name' => $this->name,
+            'title' => $this->title,
             'description' => $this->description,
             'visibility' => $this->visibility,
             'status' => $this->status,

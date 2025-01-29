@@ -4,7 +4,7 @@
             <form wire:submit="store">
                 <div class="rounded-lg border bg-white shadow-sm dark:bg-gray-950 dark:border-gray-800 mb-8">
                     <div class="p-4 sm:p-8 ">
-                        <h2 class="text-3xl font-semibold pb-2">{{ $capsule->name }}</h2>
+                        <h2 class="text-3xl font-semibold pb-2">{{ $capsule->title }}</h2>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Write a letter to your future self</p>
                     </div>
 

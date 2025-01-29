@@ -8,9 +8,9 @@
                         <h2 class="text-xl font-semibold text-gray-800 text-center mb-4">
                             What would you like to name this time capsule?
                         </h2>
-                        <x-text-input id="name" type="text" class="w-full" wire:model="form.name"
+                        <x-text-input id="title" type="text" class="w-full" wire:model="form.title"
                             placeholder="E.g., Goals for 2030" />
-                        <x-input-error class="!mt-1" :messages="$errors->get('form.name')" />
+                        <x-input-error class="!mt-1" :messages="$errors->get('form.title')" />
 
                         <!-- Public/Private Option -->
                         <div class="mt-6">

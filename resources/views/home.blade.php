@@ -70,7 +70,7 @@
                     @foreach ($publicCapsules as $capsule)
                         <div class="bg-white shadow-md rounded-lg p-4 flex flex-col">
                             <div class="flex flex-col space-y-4">
-                                <h4 class="font-semibold text-lg text-gray-700">{{ $capsule->name }}</h4>
+                                <h4 class="font-semibold text-lg text-gray-700">{{ $capsule->title }}</h4>
                                 <p class="text-gray-500 text-sm line-clamp-3">{{ $capsule->description }}</p>
                             </div>
                             <div class="mt-auto">
@@ -79,7 +79,7 @@
                                         Messages: <span
                                             class="font-semibold text-gray-800">{{ $capsule->letters_count }}</span>
                                     </p>
-                                    <a href="{{ route('capsules.show', $capsule->id) }}" wire:navigate
+                                    <a href="{{ route('capsules.show', $capsule->slug) }}" wire:navigate
                                         class="text-blue-500 hover:underline text-sm">
                                         Write Message
                                     </a>
