@@ -16,13 +16,11 @@ return new class extends Migration
         Schema::create('capsules', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
             $table->string('title');
-            $table->text('description')->nullable();
             $table->string('slug')->unique();
+            $table->text('description')->nullable();
             $table->foreignUuid('user_id');
             $table->boolean('visibility')->default(0);
-            $table->integer('scheduled_days')->default(365)->comment("The number of days the capsule will be unlocked after it is created");
-            $table->timestamp('scheduled_at')->nullable()->comment("The date and time the letter is scheduled to be sent");
-            $table->string('status')->default(CapsuleStatusEnum::DRAFT);
+            $table->boolean('is_default')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

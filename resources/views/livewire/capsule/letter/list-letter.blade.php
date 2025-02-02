@@ -9,7 +9,7 @@
                     </div>
                     <div>
                         <x-primary-link href="{{ route('capsules.show', $capsule->id) }}" wire:navigate>
-                            Send Message
+                            Write a Letter
                         </x-primary-link>
                     </div>
                 </div>
@@ -34,16 +34,9 @@
                     @else
                         <div class="rounded-lg border bg-white p-4 flex justify-between items-center shadow">
                             <div class="space-y-1">
-                                <h3 class="font-medium text-gray-900 flex items-center">
-                                    <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M8 17l4 4m0 0l4-4m-4 4V3">
-                                        </path>
-                                    </svg>
-                                    Scheduled at {{ $letter->scheduled_at->toFormattedDateString() }}
+                                <h3 class="text-xl font-medium text-gray-900 flex items-center">
+                                    {{ $letter->title }}
                                 </h3>
-
                                 <p class="text-sm text-gray-500">Delivery in
                                     {{ $letter->scheduled_at->diffForHumans() }}</p>
                                 <p class="text-xs text-gray-400">Created on
@@ -56,7 +49,6 @@
                             @endforeach
                         </div>
                     @endif
-
                 @empty
                     <div class="flex flex-col items-center justify-center space-y-4 py-12">
                         <svg class="w-16 h-16 text-gray-400" fill="none" xmlns="http://www.w3.org/2000/svg"

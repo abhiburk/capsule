@@ -2,15 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Models\Capsule;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LetterFactory extends Factory
 {
     public function definition(): array
     {
+        $fakerDateTime = $this->faker->dateTimeBetween('-1 year', 'now');
         return [
-            'user_id' => \App\Models\User::factory(),
-            'capsule_id' => \App\Models\Capsule::factory(),
+            'user_id' => User::query()->inRandomOrder()->value('id'),
+            'capsule_id' => Capsule::query()->inRandomOrder()->value('id'),
+            'title' => "A letter from {$fakerDateTime->format('M d, Y')}",
             'message' => $this->faker->text,
             'channels' => [\App\Enums\ChannelTypesEnum::EMAIL],
             'scheduled_days' => $this->faker->numberBetween(1, 5) * 365,
@@ -18,8 +22,8 @@ class LetterFactory extends Factory
             'delivered_at' => null,
             'read_at' => null,
             'is_public' => $this->faker->boolean,
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'created_at' => $fakerDateTime,
+            'updated_at' => $fakerDateTime,
         ];
     }
 }

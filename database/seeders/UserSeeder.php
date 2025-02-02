@@ -18,6 +18,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('Password@123'),
             'remember_token' => Str::random(10),
         ];
-        User::factory(1)->create($admin);
+        User::create($admin);
     }
 }

@@ -9,7 +9,6 @@ class LetterSeeder extends Seeder
 {
     public function run(): void
     {
-        Letter::truncate();
         Letter::factory(10)->create();
     }
 }

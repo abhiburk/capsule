@@ -11,9 +11,17 @@
                         </p>
                     </div>
 
-                    <x-primary-link href="{{ route('capsules.create') }}" wire:navigate>
-                        Create Capsule
-                    </x-primary-link>
+                    <div class="flex space-x-4">
+                        <x-primary-link
+                            href="{{ route('capsules.letters.create', auth()->user()->default_capsule()->slug) }}"
+                            wire:navigate>
+                            Write a Letter
+                        </x-primary-link>
+
+                        <x-primary-link href="{{ route('capsules.create') }}" wire:navigate>
+                            Create Capsule
+                        </x-primary-link>
+                    </div>
                 </div>
 
                 <!-- Stats Section -->

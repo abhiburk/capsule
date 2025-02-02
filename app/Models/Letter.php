@@ -23,6 +23,14 @@ class Letter extends Model
         'id'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($letter) {
+            $letter->title = 'A letter from ' . now()->format('M d, Y');
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,5 +39,10 @@ class Letter extends Model
     public function capsule()
     {
         return $this->belongsTo(Capsule::class);
+    }
+
+    public function recipients()
+    {
+        return $this->hasMany(Recipient::class);
     }
 }

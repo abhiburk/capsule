@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Capsule;
+namespace App\Livewire\Capsule\Letter;
 
 use App\Models\Capsule;
 use Livewire\Component;
@@ -19,7 +19,7 @@ class ListLetter extends Component
     public function render()
     {
         $letters = $this->capsule->letters()->latest()->simplePaginate(5);
-        return view('livewire.capsule.list-letter', [
+        return view('livewire.capsule.letter.list-letter', [
             'letters' => $letters
         ]);
     }

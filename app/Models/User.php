@@ -48,6 +48,13 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::created(function ($user) {
+            $user->createDefaultCapsule();
+        });
+    }
+
     public function letters()
     {
         return $this->hasMany(Letter::class);
@@ -56,5 +63,20 @@ class User extends Authenticatable
     public function capsules()
     {
         return $this->hasMany(Capsule::class);
+    }
+
+    public function createDefaultCapsule()
+    {
+        return $this->capsules()->create([
+            'title' => 'default',
+            'description' => 'default public capsule',
+            'visibility' => 0,
+            'is_default' => 1,
+        ]);
+    }
+
+    public function default_capsule(): Capsule
+    {
+        return $this->capsules()->where('is_default', 1)->first();
     }
 }

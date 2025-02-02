@@ -20,7 +20,7 @@
                         <div class="flex-1">
                             <div class="flex items-center justify-between">
                                 <h3 class="text-lg font-semibold">
-                                    <a href="{{ route('capsules.show', $capsule->slug) }}"
+                                    <a href="{{ route('capsules.show', $capsule->slug) }}" wire:navigate
                                         class="hover:text-blue-500">{{ $capsule->title }}</a>
                                 </h3>
                                 <a href="#">
@@ -40,7 +40,7 @@
                                 <span class="text-xs">&bull;</span>
                                 <p>{{ $capsule->visibility_name }}</p>
                                 <span class="text-xs">&bull;</span>
-                                <a href="{{ route('capsules.letters.index', $capsule->id) }}"
+                                <a href="{{ route('capsules.letters.index', $capsule->id) }}" wire:navigate
                                     class="text-blue-500 hover:underline">
                                     {{ $capsule->letters_count }}
                                     {{ Str::plural('letter', $capsule->letters_count) }}

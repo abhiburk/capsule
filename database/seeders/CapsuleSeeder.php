@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Letter;
+use App\Models\Capsule;
 use Illuminate\Database\Seeder;
 
 class CapsuleSeeder extends Seeder
 {
     public function run(): void
     {
-        Letter::truncate();
-        Letter::factory(6)->create();
+        Capsule::factory(6)->create();
     }
 }
