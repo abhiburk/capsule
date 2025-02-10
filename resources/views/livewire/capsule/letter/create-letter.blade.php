@@ -117,7 +117,33 @@
                             </div>
 
                             <div class="space-y-3">
+                                <div>
+                                    <label for="request-location"
+                                        class="inline-flex items-center {{ $form->location ? 'cursor-not-allowed' : '' }}"
+                                        id="location-label">
+                                        <input wire:model.live="form.location" id="request-location" type="checkbox"
+                                            name="location" {{ $form->location ? 'disabled' : '' }}
+                                            class="{{ $form->location ? 'cursor-not-allowed' : '' }} rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
+                                        <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                                            {{ __('Allow access to my current location') }}
+                                            <x-spinner wire:loading wire:target="form.location" />
+                                        </span>
+                                    </label>
+                                    <p class="text-xs text-gray-400">
+                                        By allowing access to your location, we can use the your current location to
+                                        show where the letter was written.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
                                 <label class="text-sm font-medium">Add Recipients</label>
+                                <div class="flex gap-2">
+                                    <div class="relative flex-1">
+                                        <x-text-input type="email" value="{{ auth()->user()->email }}" readonly
+                                            disabled
+                                            class="block w-full rounded-lg border px-4 py-2.5 sm:text-sm pr-10 bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-600 border-gray-300 flex-col items-center justify-center gap-2 cursor-not-allowed" />
+                                    </div>
+                                </div>
                                 @foreach ($form->recipients as $key => $recipient)
                                     <div class="flex gap-2">
                                         <div class="relative flex-1">
@@ -125,17 +151,14 @@
                                                 wire:model="form.recipients.{{ $key }}"
                                                 class="block w-full rounded-lg border px-4 py-2.5 sm:text-sm pr-10" />
                                         </div>
-                                        @if ($key != 0)
-                                            <button wire:click.prevent="removeRecipient({{ $key }})"
-                                                class="p-2.5 rounded-lg border border-gray-200 text-gray-500 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-colors">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        @endif
+                                        <button wire:click.prevent="removeRecipient({{ $key }})"
+                                            class="p-2.5 rounded-lg border border-gray-200 text-gray-500 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-colors">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 @endforeach
                                 <button wire:click.prevent="addRecipient"
@@ -155,10 +178,40 @@
                 <div class="flex justify-end mt-6">
                     <x-primary-button class="w-full md:w-auto flex justify-center">
                         <x-spinner wire:loading wire:target="store" />
-                        {{ __('Schedule Letter') }}
+                        {{ __('Schedule') }}
                     </x-primary-button>
                 </div>
             </form>
         </div>
     </main>
 </div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        if (navigator.permissions) {
+            navigator.permissions.query({
+                name: 'geolocation'
+            }).then(permissionStatus => {
+                console.log(permissionStatus.state);
+                if (permissionStatus.state === 'granted') {
+                    getLocation();
+                } else {
+                    document.getElementById("request-location").addEventListener("click", getLocation);
+                }
+            });
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    console.log(position.coords.latitude, position.coords.longitude);
+                    Livewire.dispatch('location-granted', {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    });
+</script>

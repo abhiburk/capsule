@@ -12,9 +12,11 @@ class LetterNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public Letter $letter)
+    public Letter $letter;
+
+    public function __construct(string $letterId)
     {
-        $this->letter = $letter;
+        $this->letter = Letter::find($letterId);
     }
 
     public function via(object $notifiable): array

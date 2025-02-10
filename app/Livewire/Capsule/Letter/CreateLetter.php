@@ -7,6 +7,7 @@ use App\Livewire\Forms\LetterForm;
 use App\Models\Capsule;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.app')]
 class CreateLetter extends Component
@@ -24,11 +25,11 @@ class CreateLetter extends Component
     public function mount(Capsule $capsule)
     {
         $this->capsule = $capsule;
-        $this->form->recipients[] = auth()->user()->email;
     }
 
     public function store()
     {
+        dd($this->form->latitude, $this->form->longitude);
         $this->form->store($this->capsule);
 
         $this->capsule->update([
@@ -41,6 +42,21 @@ class CreateLetter extends Component
     public function render()
     {
         return view('livewire.capsule.letter.create-letter');
+    }
+
+    #[On('location-granted')]
+    public function setLocation(string $latitude, string $longitude)
+    {
+        $this->form->latitude = $latitude;
+        $this->form->longitude = $longitude;
+        $this->form->location = true;
+    }
+
+    public function resetLocation()
+    {
+        $this->form->latitude = null;
+        $this->form->longitude = null;
+        $this->form->location = false;
     }
 
     public function removeRecipient($index)

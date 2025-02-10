@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\LetterBatchableJob;
 use App\Jobs\LetterJob;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -9,4 +10,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::job(new LetterJob)->daily();
+Schedule::job(new LetterBatchableJob)->daily();

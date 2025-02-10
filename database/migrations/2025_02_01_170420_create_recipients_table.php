@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('letter_id');
             $table->string('email');
             $table->timestamp('sent_at')->nullable();
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }

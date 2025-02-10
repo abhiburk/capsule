@@ -19,6 +19,9 @@ return new class extends Migration
             $table->foreignUuid('capsule_id');
             $table->string('title');
             $table->text('message');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->text('location')->nullable();
             $table->json('channels')->nullable()->comment("The channels the letter will be sent to");
             $table->integer('scheduled_days')->default(365)->comment("The number of days the capsule will be unlocked after it is created");
             $table->timestamp('scheduled_at')->nullable()->comment("The date and time the letter is scheduled to be sent");

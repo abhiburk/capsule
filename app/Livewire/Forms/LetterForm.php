@@ -7,6 +7,7 @@ use App\Models\Capsule;
 use App\Models\Letter;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -30,6 +31,15 @@ class LetterForm extends Form
     #[Validate('required')]
     public string $scheduled_type = 'days';
 
+    #[Validate('nullable|string')]
+    public string $latitude = '';
+
+    #[Validate('nullable|string')]
+    public string $longitude = '';
+
+    #[Validate('nullable|boolean')]
+    public bool $location = false;
+
     public function store(Capsule $capsule): Letter
     {
         $this->validate();
@@ -39,6 +49,8 @@ class LetterForm extends Form
             'message' => $this->message,
             'channels' => $this->channels,
             'is_public' => $this->is_public,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
         ];
 
         if (!is_numeric($this->scheduled_days)) {
@@ -59,7 +71,19 @@ class LetterForm extends Form
         $recipients = collect($this->recipients)->map(function ($email) {
             return ['email' => $email];
         })->toArray();
+
         $letter->recipients()->createMany($recipients);
+
+        dispatch(function () use ($letter) {
+            $response = Http::get("https://nominatim.openstreetmap.org/reverse?format=json&lat={$letter->latitude}&lon={$letter->longitude}")
+                ->throw()
+                ->json();
+            if (isset($response['display_name'])) {
+                $letter->update([
+                    'location' => $response['display_name'],
+                ]);
+            }
+        });
 
         return $letter;
     }
