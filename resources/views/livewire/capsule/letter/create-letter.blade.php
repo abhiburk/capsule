@@ -22,9 +22,8 @@
                                             placeholder="Select a date" />
 
                                         <label class="cursor-pointer">
-                                            <input type="radio" name="scheduled_type"
-                                                wire:model.live="form.scheduled_type" value="days"
-                                                class="hidden peer">
+                                            <input type="radio" name="scheduled_type" value="days"
+                                                wire:model.live="form.scheduled_type" class="hidden peer">
                                             <div
                                                 class="px-4 py-2 text-sm border rounded-md text-center hover:bg-gray-50 transition-colors dark:border-gray-800 dark:hover:bg-gray-800 peer-checked:bg-gray-800 peer-checked:text-white">
                                                 Choose Duration
@@ -56,14 +55,20 @@
                                 <x-input-error :messages="$errors->get('form.scheduled_days')" class="mt-2" />
                             </div>
 
-                            <div class="space-y-3">
+                            <div class="space-y-3" x-data="{
+                                message: 'Dear future me...',
+                                limit: $el.dataset.limit,
+                                get remaining() {
+                                    return this.limit - this.message.length
+                                }
+                            }" data-limit="{{ $message_limit }}">
                                 <label class="text-sm font-medium">Your Message</label>
-                                <textarea wire:model.live="form.message"
+                                <textarea wire:model="form.message" x-model="message" id="message" maxlength="{{ $message_limit }}"
                                     class="w-full min-h-[150px] rounded-md border resize-none border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:outline-none p-3 text-sm dark:border-gray-800 dark:bg-gray-950 dark:focus:border-gray-700 dark:focus:ring-gray-700"
                                     placeholder="Dear future me..."></textarea>
                                 <div class="flex justify-between text-sm text-gray-500">
                                     <span>Take your time, this letter will wait</span>
-                                    <span>{{ strlen($form->message) }} characters</span>
+                                    <span><span x-text="remaining"></span> characters</span>
                                 </div>
                             </div>
                             <div class="space-y-3">
@@ -121,16 +126,19 @@
                                     <label for="request-location"
                                         class="inline-flex items-center {{ $form->location ? 'cursor-not-allowed' : '' }}"
                                         id="location-label">
-                                        <input wire:model.live="form.location" id="request-location" type="checkbox"
+                                        <input wire:model="form.location" id="request-location" type="checkbox"
                                             name="location" {{ $form->location ? 'disabled' : '' }}
-                                            class="{{ $form->location ? 'cursor-not-allowed' : '' }} rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" />
-                                        <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                                            class="{{ $form->location ? 'cursor-not-allowed' : '' }} rounded
+                                        dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm
+                                        focus:ring-indigo-500 dark:focus:ring-indigo-600
+                                        dark:focus:ring-offset-gray-800" />
+                                        <span class="ms-2 text-sm text-gray-600 dark:text-gray-400 flex">
                                             {{ __('Allow access to my current location') }}
-                                            <x-spinner wire:loading wire:target="form.location" />
+                                            <x-spinner id="location-spinner" class="hidden" />
                                         </span>
                                     </label>
                                     <p class="text-xs text-gray-400">
-                                        By allowing access to your location, we can use the your current location to
+                                        By allowing access to your location, we can use your current location to
                                         show where the letter was written.
                                     </p>
                                 </div>
@@ -202,12 +210,17 @@
 
         function getLocation() {
             if (navigator.geolocation) {
+                document.getElementById("location-spinner").classList.remove('hidden');
+                document.getElementById("request-location").disable = true;
+                document.getElementById("request-location").classList.add('cursor-not-allowed');
+                document.getElementById("location-label").classList.add('cursor-not-allowed');
                 navigator.geolocation.getCurrentPosition(position => {
                     console.log(position.coords.latitude, position.coords.longitude);
-                    Livewire.dispatch('location-granted', {
+                    Livewire.dispatch('set-location', {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
                     });
+                    document.getElementById("location-spinner").classList.add('hidden');
                 });
             } else {
                 alert("Geolocation is not supported by this browser.");

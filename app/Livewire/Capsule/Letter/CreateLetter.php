@@ -13,7 +13,9 @@ use Livewire\Attributes\On;
 class CreateLetter extends Component
 {
     public LetterForm $form;
+
     public Capsule $capsule;
+
     public array $periods = [
         30 => '1 month',
         30 * 6 => '6 months',
@@ -22,6 +24,8 @@ class CreateLetter extends Component
         365 * 5 => '5 years',
     ];
 
+    public int $message_limit = 2000;
+
     public function mount(Capsule $capsule)
     {
         $this->capsule = $capsule;
@@ -29,7 +33,6 @@ class CreateLetter extends Component
 
     public function store()
     {
-        dd($this->form->latitude, $this->form->longitude);
         $this->form->store($this->capsule);
 
         $this->capsule->update([
@@ -44,7 +47,7 @@ class CreateLetter extends Component
         return view('livewire.capsule.letter.create-letter');
     }
 
-    #[On('location-granted')]
+    #[On('set-location')]
     public function setLocation(string $latitude, string $longitude)
     {
         $this->form->latitude = $latitude;

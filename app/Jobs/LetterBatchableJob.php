@@ -13,13 +13,12 @@ class LetterBatchableJob implements ShouldQueue
 
     public function handle(): void
     {
-        $letters = Letter::where('scheduled_at', '<=', now())->whereNull('delivered_at');
-        $letters->chunk(100, function ($letters) {
+        Letter::where('scheduled_at', '<=', now())->whereNull('delivered_at')->chunk(100, function ($letters) {
             $jobs = $letters->map(function ($letter) {
                 return new LetterJob($letter->id);
             });
 
-            Bus::batch($jobs)->name('Letter Delivery')->onQueue('high')->dispatch();
+            Bus::batch($jobs)->name('Letter Delivery')->dispatch();
         });
     }
 }

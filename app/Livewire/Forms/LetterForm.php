@@ -20,12 +20,12 @@ class LetterForm extends Form
     public array $channels = [ChannelTypesEnum::EMAIL];
 
     #[Validate('required')]
-    public string $scheduled_days = '30';
+    public string|int $scheduled_days = 30;
 
     #[Validate('required|boolean')]
     public bool $is_public = false;
 
-    #[Validate('required|array')]
+    #[Validate('nullable|array')]
     public array $recipients = [];
 
     #[Validate('required')]
@@ -53,10 +53,10 @@ class LetterForm extends Form
             'longitude' => $this->longitude,
         ];
 
-        if (!is_numeric($this->scheduled_days)) {
+        if ($this->scheduled_type == 'custom') {
             $scheduledDays = Carbon::parse($this->scheduled_days);
-            if ($this->scheduled_days < now()->addDays(7)->format('Y-m-d')) {
-                abort(Response::HTTP_FORBIDDEN, 'Scheduled date must be in the future');
+            if ($scheduledDays < now()->addDays(7)) {
+                abort(Response::HTTP_FORBIDDEN, 'Scheduled date must be atleast 7 days ahead.');
             }
 
             $data['scheduled_at'] = $scheduledDays;
@@ -74,16 +74,23 @@ class LetterForm extends Form
 
         $letter->recipients()->createMany($recipients);
 
-        dispatch(function () use ($letter) {
-            $response = Http::get("https://nominatim.openstreetmap.org/reverse?format=json&lat={$letter->latitude}&lon={$letter->longitude}")
-                ->throw()
-                ->json();
-            if (isset($response['display_name'])) {
-                $letter->update([
-                    'location' => $response['display_name'],
-                ]);
-            }
-        });
+        if ($letter->latitude && $letter->longitude) {
+            dispatch(function () use ($letter) {
+                $response = Http::withUserAgent('Capsule Application/1.0')
+                    ->get("https://nominatim.openstreetmap.org/reverse?format=json&lat={$letter->latitude}&lon={$letter->longitude}")
+                    ->throw()
+                    ->json();
+
+                if (isset($response['address'])) {
+                    $address = $response['address'];
+                    if (isset($address['state']) && isset($address['country'])) {
+                        $letter->update([
+                            'location' => "{$address['state']}, {$address['country']}",
+                        ]);
+                    }
+                }
+            });
+        }
 
         return $letter;
     }
